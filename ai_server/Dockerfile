@@ -47,9 +47,12 @@ RUN apt-get clean &&\
     rm -rf /var/lib/apt/lists/* &&\    
     rm -f /etc/ssh/ssh_host_*
 
-COPY handlers models utils *.py requirements.txt /ai_server/
+COPY *.py requirements.txt /ai_server/
+COPY handlers /ai_server/handlers/
+COPY models /ai_server/models/
+COPY utils /ai_server/utils/
 
-RUN pip install
+RUN pip install -r /ai_server/requirements.txt
 
 EXPOSE 5000
 
