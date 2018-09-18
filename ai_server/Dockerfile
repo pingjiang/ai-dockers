@@ -52,8 +52,11 @@ COPY handlers /ai_server/handlers/
 COPY models /ai_server/models/
 COPY utils /ai_server/utils/
 
-RUN pip install -r /ai_server/requirements.txt
+# http://mirrors.aliyun.com/pypi/simple/
+RUN pip install -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com -r /ai_server/requirements.txt
+RUN pip install -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com uwsgi
 
-EXPOSE 5000
+EXPOSE 80
 
-ENTRYPOINT ["python", "/ai_server/app.py"]
+# -H ~/.venv/py3/
+ENTRYPOINT uwsgi --http :80 --wsgi-file /ai_server/app.py --enable-threads --master

@@ -5,13 +5,13 @@ from flask import jsonify
 # from flask import abort, redirect, url_for
 from ai_server.handlers import face_detection
 
-app = Flask(__name__)
+application = Flask(__name__)
 
 config = {
-    'models': os.path.join(app.root_path, './models')
+    'models': os.path.join(application.root_path, './models')
 }
 
-@app.route('/api/face_detection', methods=['GET', 'POST'])
+@application.route('/api/face_detection', methods=['GET', 'POST'])
 def handle_face_detection() :
     try:
         # request .json, .args, .forms, .files
@@ -28,4 +28,4 @@ def handle_face_detection() :
         })
 
 if __name__ == '__main__':
-    app.run(debug = True, host = '0.0.0.0')
+    application.run(debug = True, host = '0.0.0.0')
