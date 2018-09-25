@@ -14,6 +14,8 @@ RUN apt-get -y install libopenblas-dev liblapack-dev build-essential \
     unzip \
     yasm \
     pkg-config \
+    libopencv-dev \
+    python-opencv \
     libswscale-dev \
     libtbb2 \
     libtbb-dev \
@@ -51,6 +53,16 @@ COPY *.py requirements.txt /ai_server/
 COPY handlers /ai_server/handlers/
 COPY models /ai_server/models/
 COPY utils /ai_server/utils/
+COPY tools /ai_server/tools
+
+WORKDIR /ai_server/tools/matting
+RUN make
+
+RUN mkdir -p /ai_server/bin/; mv matting /ai_server/bin/
+
+RUN chmod +x /ai_server/bin/*
+
+WORKDIR /
 
 # http://mirrors.aliyun.com/pypi/simple/
 RUN pip install -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com -r /ai_server/requirements.txt
