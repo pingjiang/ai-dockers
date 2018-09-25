@@ -28,10 +28,15 @@ class Detector:
 				# k, d.left(), d.top(), d.right(), d.bottom()))
 			# Get the landmarks/parts for the face in box d.
 			shape = self.predictor(img, d)
-			points = [(i, shape.part(i).x, shape.part(i).y) for i in range(shape.num_parts)]
+			points = [{'x': shape.part(i).x, 'y': shape.part(i).y} for i in range(shape.num_parts)]
 			objects.append({
-				'box': [d.left(), d.top(), d.right(), d.bottom()],
-				'points': points
+				'location': {
+					'x': d.left(),
+					'y': d.top(),
+					'width': d.right() - d.left(),
+					'height': d.bottom() - d.top()
+				},
+				'keypoints68': points
 			})
 		return objects
 
@@ -61,4 +66,8 @@ def handle(request, config):
 	detector = Detector(predictor_path=predictor_path)
 	img = string_to_image(image_base64)
 	results = detector.detect(img)
-	return results
+	return {
+		"content": {
+			"objects": results
+		}
+	}

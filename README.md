@@ -2,6 +2,12 @@
 
 Dockerfiles for AI
 
+Image Segmentation
+Instance Segmentation
+Text Detection
+Object Detection
+Classification
+
 ## Design
 
 1. support rest api for use
