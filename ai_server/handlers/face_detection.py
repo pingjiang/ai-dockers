@@ -36,7 +36,7 @@ class Detector:
 					'width': d.right() - d.left(),
 					'height': d.bottom() - d.top()
 				},
-				'keypoints68': points
+				'feature_point_face_68': points
 			})
 		return objects
 
